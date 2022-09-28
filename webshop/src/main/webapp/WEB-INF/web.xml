@@ -12,10 +12,71 @@
     <servlet-class>prac01.test01.FirstServlet</servlet-class>
 </servlet>
 
-<servlet-mapping>
+<!-- <servlet-mapping>
     <servlet-name>firstServlet</servlet-name>
     <url-pattern>/first</url-pattern>
 </servlet-mapping>
   
+<servlet>
+	<servlet-name>MemberUpdateServlet</servlet-name>
+	<servlet-class>prac01.test01.MemberUpdateServlet</servlet-class>
+	<init-param>
+		<param-name>driver</param-name>
+		<param-value>com.mysql.cj.jdbc.Driver</param-value>
+	</init-param>
+	<init-param>
+		<param-name>url</param-name>
+		<param-value>jdbc:mysql://localhost:3306/test</param-value>
+	</init-param>
+	<init-param>
+		<param-name>username</param-name>
+		<param-value>root</param-value>
+	</init-param>
+	<init-param>
+		<param-name>password</param-name>
+		<param-value>qwer</param-value>
+	</init-param>
+</servlet>
+
+<servlet-mapping>
+	<servlet-name>MemberUpdateServlet</servlet-name>
+	<url-pattern>/member/update</url-pattern>
+</servlet-mapping> -->
+
+<context-param>
+	<param-name>driver</param-name>
+	<param-value>com.mysql.cj.jdbc.Driver</param-value>
+</context-param>
+<context-param>
+	<param-name>url</param-name>
+	<param-value>jdbc:mysql://localhost:3306/test</param-value>
+</context-param>
+<context-param>
+	<param-name>username</param-name>
+	<param-value>root</param-value>
+</context-param>
+<context-param>
+	<param-name>password</param-name>
+	<param-value>qwer</param-value>
+</context-param>
   
+  
+<!-- <filter>
+	<filter-name>CharacterEncodingFilter</filter-name>
+	<filter-class>prac01.test01.filter.CharacterEncodingFilter</filter-class>
+	<init-param>
+		<param-name>encoding</param-name>
+		<param-value>UTF-8</param-value>
+	</init-param>
+	
+</filter>
+
+<filter-mapping>
+	<filter-name>CharacterEncodingFilter</filter-name>
+	<url-pattern>/*</url-pattern>
+</filter-mapping> 
+filter클래스에 @WebFilter 애너테이션 적
+-->
+ 
+ 
 </web-app>

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/dbConTest")
+@WebServlet("/member/list")
 public class DbConnectionTest extends HttpServlet{
 
 	
@@ -45,12 +45,16 @@ public class DbConnectionTest extends HttpServlet{
 			PrintWriter out = res.getWriter();
 			out.println("<html><head><title>회원목록</title></head>");
 			out.println("<body><h1>회원목록</h1>");
+			out.println("<p><a href='add'>신규 회원</a></p>");
 			while(rs.next()) {
 					out.println(
 						rs.getInt("MNO") + ", " +
-						rs.getString("MNAME") + ", "  +
+					"<a href='update?no=" + rs.getInt("MNO") + "'>" +
+						rs.getString("MNAME") + "</a>, "  +
 						rs.getString("EMAIL") + ", " +
-						rs.getDate("CRE_DATE") + "<br>"
+						rs.getDate("CRE_DATE") + 
+						"<a href='delete?no=" + rs.getInt("MNO") 
+						+"'> [delete] </a>" + "<br>"
 							);
 			}
 			out.println("</body></html>");
