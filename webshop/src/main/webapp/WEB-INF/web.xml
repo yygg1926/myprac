@@ -78,5 +78,10 @@
 filter클래스에 @WebFilter 애너테이션 적
 -->
  
+ <servlet>
+ 	<servlet-name>AppInitServlet</servlet-name>
+ 	<servlet-class>prac01.test01.AppInitServlet</servlet-class>
+ 	<load-on-startup>1</load-on-startup>
+ </servlet>
  
 </web-app>
