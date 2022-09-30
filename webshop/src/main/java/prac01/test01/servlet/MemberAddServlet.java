@@ -1,17 +1,20 @@
-package prac01.test01;
+package prac01.test01.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import prac01.test01.dao.MemberDao;
+import prac01.test01.vo.Member;
 
 
 @WebServlet("/member/add")
@@ -41,20 +44,27 @@ public class MemberAddServlet extends HttpServlet {
 		PreparedStatement stmt = null;
 		//	req.setCharacterEncoding("UTF-8");	//한글이 깨지는 현상 방지 , filter 적
 		try {
-			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
-			conn = DriverManager.getConnection(
-						"jdbc:mysql://localhost:3306/test",
-						"root",
-						"qwer"
-					);
-			stmt = conn.prepareStatement(
-					"INSERT INTO MEMBERS(EMAIL, PWD, MNAME, CRE_DATE, MOD_DATE)" +
-					" VALUES (?,?,?,NOW(), NOW())"
-					);
-			stmt.setString(1, req.getParameter("email"));
-			stmt.setString(2, req.getParameter("password"));
-			stmt.setString(3, req.getParameter("name"));
-			stmt.executeUpdate();
+//			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+//			conn = DriverManager.getConnection(
+//						"jdbc:mysql://localhost:3306/test",
+//						"root",
+//						"qwer"
+//					);
+			ServletContext sc = this.getServletContext();
+//			conn = (Connection) sc.getAttribute("conn");
+			MemberDao memberDao = (MemberDao) sc.getAttribute("memberDao");
+//			memberDao.setConnection(conn);
+			memberDao.insert(new Member().setName(req.getParameter("name"))
+								.setEmail(req.getParameter("email"))
+								.setPassword(req.getParameter("password")));
+//			stmt = conn.prepareStatement(
+//					"INSERT INTO MEMBERS(EMAIL, PWD, MNAME, CRE_DATE, MOD_DATE)" +
+//					" VALUES (?,?,?,NOW(), NOW())"
+//					);
+//			stmt.setString(1, req.getParameter("email"));
+//			stmt.setString(2, req.getParameter("password"));
+//			stmt.setString(3, req.getParameter("name"));
+//			stmt.executeUpdate();
 			
 //			res.sendRedirect("list");//결과 화면 안보여주고 다른화면 갈때는 리다이렉트를 이
 			
@@ -68,8 +78,10 @@ public class MemberAddServlet extends HttpServlet {
 //			out.println("<a href='list'>돌아가기</a>");
 //			out.println("</body></html>");			
 //			res.addHeader("Refresh", "1;url=list");	// 1초 뒤 자동 리프레시 
-			RequestDispatcher rd = req.getRequestDispatcher("/member/MemberList.jsp");
-			rd.include(req, res);
+//			RequestDispatcher rd = req.getRequestDispatcher("/member/MemberList.jsp");
+//			rd.include(req, res);
+			
+			res.sendRedirect("list");
 		}catch(Exception e) {
 //			e.printStackTrace();
 //			throw new ServletException(e);

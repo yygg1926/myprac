@@ -1,4 +1,4 @@
-package prac01.test01;
+package prac01.test01.servlet;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import prac01.test01.dao.MemberDao;
 import prac01.test01.vo.Member;
 
 @WebServlet("/member/update")
@@ -32,25 +33,29 @@ public class MemberUpdateServlet extends HttpServlet {
 //					this.getInitParameter("password"));
 			ServletContext sc = this.getServletContext();
 			
-			Class.forName(sc.getInitParameter("driver"));
-			conn = DriverManager.getConnection(sc.getInitParameter("url"),
-					sc.getInitParameter("username"),
-					sc.getInitParameter("password"));
+//			Class.forName(sc.getInitParameter("driver"));
+//			conn = DriverManager.getConnection(sc.getInitParameter("url"),
+//					sc.getInitParameter("username"),
+//					sc.getInitParameter("password"));
 			
 			
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(
-					"select MNO,EMAIL,MNAME,CRE_DATE from MEMBERS where MNO='" + req.getParameter("no") +"'"
-					);
+//			stmt = conn.createStatement();
+//			rs = stmt.executeQuery(
+//					"select MNO,EMAIL,MNAME,CRE_DATE from MEMBERS where MNO='" + req.getParameter("no") +"'"
+//					);
 			//rs.next();
 			res.setContentType("text/html; charset=UTF-8");
 			Member member = new Member();
-			if(rs.next()) {
-				member.setNo(rs.getInt("MNO"))
-				.setName(rs.getString("MNAME"))
-				.setEmail(rs.getString("EMAIL"))
-				.setCreatedDate(rs.getDate("CRE_DATE"));
-			}
+//			if(rs.next()) {
+//				member.setNo(rs.getInt("MNO"))
+//				.setName(rs.getString("MNAME"))
+//				.setEmail(rs.getString("EMAIL"))
+//				.setCreatedDate(rs.getDate("CRE_DATE"));
+//			}
+			MemberDao memberDao = (MemberDao)sc.getAttribute("memberDao");
+//			memberDao.setConnection(conn);
+			member = memberDao.selectOne(Integer.parseInt(req.getParameter("no")));
+			
 			req.setAttribute("member", member);
 //			PrintWriter out = res.getWriter();
 //			out.println("<html><head><title>회원정보</title></head>");
@@ -93,18 +98,27 @@ public class MemberUpdateServlet extends HttpServlet {
 //						this.getInitParameter("password")
 //					);
 			ServletContext sc = this.getServletContext();
-			Class.forName(sc.getInitParameter("driver"));
-			conn = DriverManager.getConnection(sc.getInitParameter("url"),
-					sc.getInitParameter("username"),
-					sc.getInitParameter("password"));
-			stmt = conn.prepareStatement(
-						"UPDATE MEMBERS SET EMAIL=?, MNAME=?, MOD_DATE=now()" +
-						" WHERE MNO=?"
-					);
-			stmt.setString(1, req.getParameter("email"));
-			stmt.setString(2, req.getParameter("name"));
-			stmt.setInt(3, Integer.parseInt(req.getParameter("no")));
-			stmt.executeUpdate();
+//			Class.forName(sc.getInitParameter("driver"));
+//			conn = DriverManager.getConnection(sc.getInitParameter("url"),
+//					sc.getInitParameter("username"),
+//					sc.getInitParameter("password"));
+//			conn = (Connection) sc.getAttribute("conn");
+			
+			
+//			stmt = conn.prepareStatement(
+//						"UPDATE MEMBERS SET EMAIL=?, MNAME=?, MOD_DATE=now()" +
+//						" WHERE MNO=?"
+//					);
+//			stmt.setString(1, req.getParameter("email"));
+//			stmt.setString(2, req.getParameter("name"));
+//			stmt.setInt(3, Integer.parseInt(req.getParameter("no")));
+//			stmt.executeUpdate();
+			MemberDao memberDao = (MemberDao)sc.getAttribute("memberDao");
+//			memberDao.setConnection(conn);
+			memberDao.update(new Member().setNo(Integer.parseInt(req.getParameter("no")))
+					.setEmail(req.getParameter("email"))
+					.setName(req.getParameter("name")));
+			
 			
 			res.sendRedirect("list");
 		}catch(Exception e) {

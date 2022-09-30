@@ -1,4 +1,4 @@
-package prac01.test01;
+package prac01.test01.servlet;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -15,6 +15,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
+import prac01.test01.dao.MemberDao;
 import prac01.test01.vo.Member;
 
 @WebServlet("/member/list")
@@ -35,15 +36,20 @@ public class MemberListServlet extends HttpServlet{
 //	                "qwer");
 //			ServletContext를 이용한 커넥션 공통 사용
 			ServletContext sc = this.getServletContext();
-			conn = (Connection) sc.getAttribute("conn");
+//			conn = (Connection) sc.getAttribute("conn");
+//			Listener 구현으로 커넥션 구현 대체 
 			
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(
-					"SELECT MNO, MNAME, EMAIL, CRE_DATE" +
-					" FROM MEMBERS" +
-					" ORDER BY MNO ASC");
-			
+//			stmt = conn.createStatement();
+//			rs = stmt.executeQuery(
+//					"SELECT MNO, MNAME, EMAIL, CRE_DATE" +
+//					" FROM MEMBERS" +
+//					" ORDER BY MNO ASC");
+//			
 			res.setContentType("text/html; charset=UTF-8");
+//			Listener 구현으로 커넥션 구현 대체하여 DAO에 적용 후 바로 불러
+			MemberDao memberDao = (MemberDao)sc.getAttribute("memberDao")	;
+//			memberDao.setConnection(conn);
+			
 //			PrintWriter out = res.getWriter();
 //			out.println("<html><head><title>회원목록</title></head>");
 //			out.println("<body><h1>회원목록</h1>");
@@ -60,16 +66,21 @@ public class MemberListServlet extends HttpServlet{
 //							);
 //			}
 //			out.println("</body></html>");
-			ArrayList<Member> members = new ArrayList<Member>();
 			
-			while(rs.next()) {
-				members.add(new Member().setNo(rs.getInt("MNO"))
-						.setName(rs.getString("MNAME"))
-						.setEmail(rs.getString("EMAIL"))
-						.setCreatedDate(rs.getDate("CRE_DATE")));
-			}
 			
-			req.setAttribute("members", members);
+			
+//			ArrayList<Member> members = new ArrayList<Member>();
+//			
+//			while(rs.next()) {
+//				members.add(new Member().setNo(rs.getInt("MNO"))
+//						.setName(rs.getString("MNAME"))
+//						.setEmail(rs.getString("EMAIL"))
+//						.setCreatedDate(rs.getDate("CRE_DATE")));
+//			}
+//			
+//			req.setAttribute("members", members);
+			req.setAttribute("members", memberDao.selectList());
+			
 			
 			RequestDispatcher rd = req.getRequestDispatcher("/member/MemberList.jsp");
 			// 다른 서블릿이나 JSP로 작업 위임하는 객체 = RequestDispatcher

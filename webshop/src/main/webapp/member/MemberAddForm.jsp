@@ -7,7 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-<html><head><title>회원등록</title></head>
+<html>
+<head>
+<title>회원등록</title>
+</head>
 <body><h1>회원등록</h1>
 <form action='add' method='post'>
 이름 : <input type='text' name='name'><br>

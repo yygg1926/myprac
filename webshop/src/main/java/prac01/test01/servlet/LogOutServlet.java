@@ -1,4 +1,4 @@
-package prac01.test01;
+package prac01.test01.servlet;
 
 import java.io.IOException;
 
