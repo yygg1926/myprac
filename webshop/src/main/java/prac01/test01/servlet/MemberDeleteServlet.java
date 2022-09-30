@@ -40,16 +40,18 @@ public class MemberDeleteServlet extends HttpServlet {
 //			memberDao.setConnection(conn);
 			memberDao.delete(Integer.parseInt(req.getParameter("no")));
 			
-			res.sendRedirect("list");
+//			res.sendRedirect("list");
+			req.setAttribute("viewUrl", "redirect:list.do");
 		}catch(Exception e) {
-			//throw new ServletException(e);
-			req.setAttribute("error", e);
-			RequestDispatcher rd = req.getRequestDispatcher("/Error.jsp");
-			rd.forward(req, res);
-		}finally {
-			try {if(conn != null) conn.close();}catch(Exception e) {}
-			try {if(stmt != null) stmt.close();}catch(Exception e) {}
+			throw new ServletException(e);
+//			req.setAttribute("error", e);
+//			RequestDispatcher rd = req.getRequestDispatcher("/Error.jsp");
+//			rd.forward(req, res);
 		}
+//		}finally {
+//			try {if(conn != null) conn.close();}catch(Exception e) {}
+//			try {if(stmt != null) stmt.close();}catch(Exception e) {}
+//		}
 		
 	}
 }

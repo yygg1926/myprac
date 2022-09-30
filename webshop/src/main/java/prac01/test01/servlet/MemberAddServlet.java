@@ -34,8 +34,11 @@ public class MemberAddServlet extends HttpServlet {
 //		out.println("<input type='reset' value='취소'>");
 //		out.println("</form>");
 //		out.println("</body></html>");
-		RequestDispatcher rd = req.getRequestDispatcher("/member/MemberAddForm.jsp");
-		rd.forward(req, res);
+		
+//		RequestDispatcher rd = req.getRequestDispatcher("/member/MemberAddForm.jsp");
+//		rd.forward(req, res);
+//		dispatcherServlet으로 기존작업 이관 후 view정보만 넘겨준다
+		req.setAttribute("viewUrl", "/member/MemberAddForm.jsp");
 	}
 	
 	@Override
@@ -54,9 +57,14 @@ public class MemberAddServlet extends HttpServlet {
 //			conn = (Connection) sc.getAttribute("conn");
 			MemberDao memberDao = (MemberDao) sc.getAttribute("memberDao");
 //			memberDao.setConnection(conn);
-			memberDao.insert(new Member().setName(req.getParameter("name"))
-								.setEmail(req.getParameter("email"))
-								.setPassword(req.getParameter("password")));
+			
+//			memberDao.insert(new Member().setName(req.getParameter("name"))
+//								.setEmail(req.getParameter("email"))
+//								.setPassword(req.getParameter("password")));
+//			dispatcherServlet에서 데이터 작성 후 넘겨주기 때문에 객체 받기만 하면 됨
+			Member member = (Member)req.getAttribute("member");
+			memberDao.insert(member);
+			
 //			stmt = conn.prepareStatement(
 //					"INSERT INTO MEMBERS(EMAIL, PWD, MNAME, CRE_DATE, MOD_DATE)" +
 //					" VALUES (?,?,?,NOW(), NOW())"
@@ -68,7 +76,9 @@ public class MemberAddServlet extends HttpServlet {
 			
 //			res.sendRedirect("list");//결과 화면 안보여주고 다른화면 갈때는 리다이렉트를 이
 			
-			res.setContentType("text/html; charset=UTF-8");
+//			res.setContentType("text/html; charset=UTF-8");
+//			dispatcherServlet에서 전 처리 완료 
+			
 //			PrintWriter out = res.getWriter();
 //			out.println("<html><head><title>회원등록결과</title>");
 //			out.println("<meta http-equiv='Refresh' content='1; url=list'>");	// 1초뒤 자동 리프레쉬(header추가와 둘중 하나로 선택해서 사용가능)
@@ -81,17 +91,19 @@ public class MemberAddServlet extends HttpServlet {
 //			RequestDispatcher rd = req.getRequestDispatcher("/member/MemberList.jsp");
 //			rd.include(req, res);
 			
-			res.sendRedirect("list");
+//			res.sendRedirect("list");
+			req.setAttribute("viewUrl", "redirect:list.do");
 		}catch(Exception e) {
 //			e.printStackTrace();
-//			throw new ServletException(e);
-			req.setAttribute("error", e);
-			RequestDispatcher rd = req.getRequestDispatcher("/Error.jsp");
-			rd.forward(req, res);
-		}finally {
-			try {if(conn != null) conn.close();} catch(Exception e) {}
-			try {if(stmt != null) stmt.close();} catch(Exception e) {}
+			throw new ServletException(e);
+//			req.setAttribute("error", e);
+//			RequestDispatcher rd = req.getRequestDispatcher("/Error.jsp");
+//			rd.forward(req, res);
 		}
+//		}finally {
+//			try {if(conn != null) conn.close();} catch(Exception e) {}
+//			try {if(stmt != null) stmt.close();} catch(Exception e) {}
+//		}
 	}
 
 }

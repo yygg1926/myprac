@@ -10,7 +10,7 @@ My Practice
 	<%if(member.getEmail() != null){ %>
 	<span style="float:right;">
 		<%=member.getName()%>
-		<a style="color:white;" href="<%=request.getContextPath()%>/auth/logout">Logout</a>
+		<a style="color:white;" href="<%=request.getContextPath()%>/auth/logout.do">Logout</a>
 	</span>
 	<%} %>
 </div>

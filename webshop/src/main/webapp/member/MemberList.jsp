@@ -13,7 +13,7 @@
 	<jsp:include page="/Header.jsp"></jsp:include>
 	<h1>회원 목록</h1>
 	<p>
-		<a href='add'>신규회원</a>
+		<a href='add.do'>신규회원</a>
 	</p>
 	<%-- <jsp:useBean id="members"
 		scope="request"
@@ -33,10 +33,10 @@
 	<a href='delete?no=<%=member.getNo() %>'>[삭제]</a><br> --%>
 		<%-- <%} %> --%>
 	${member.no },
-	<a href="update?no=${member.no}">${member.name }</a>,
+	<a href="update.do?no=${member.no}">${member.name }</a>,
 	${member.email},
 	${member.createdDate }
-	<a href="delete?no=${member.no }">[삭제]</a>
+	<a href="delete.do?no=${member.no }">[삭제]</a>
 		<br>
 	</c:forEach>
 	<jsp:include page="/Tail.jsp"></jsp:include>

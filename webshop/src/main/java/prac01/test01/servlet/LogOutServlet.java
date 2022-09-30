@@ -17,7 +17,8 @@ public class LogOutServlet extends HttpServlet {
 		
 		HttpSession session = req.getSession();
 		session.invalidate();
-		res.sendRedirect("login");
+//		res.sendRedirect("login");
+		req.setAttribute("viewUrl", "redirect:login.do");
 		
 	}
 	

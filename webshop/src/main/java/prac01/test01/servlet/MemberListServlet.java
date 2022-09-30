@@ -2,27 +2,23 @@ package prac01.test01.servlet;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import prac01.test01.dao.MemberDao;
-import prac01.test01.vo.Member;
 
 @WebServlet("/member/list")
 public class MemberListServlet extends HttpServlet{
 
 	
-	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException{
+	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
 		
 		Connection conn = null;
 		Statement stmt = null;
@@ -45,7 +41,10 @@ public class MemberListServlet extends HttpServlet{
 //					" FROM MEMBERS" +
 //					" ORDER BY MNO ASC");
 //			
-			res.setContentType("text/html; charset=UTF-8");
+			
+//			res.setContentType("text/html; charset=UTF-8");	
+//			frontcontroller인 DispatcherServlet에서 이미 처리했기 떄문에 주석처리
+			
 //			Listener 구현으로 커넥션 구현 대체하여 DAO에 적용 후 바로 불러
 			MemberDao memberDao = (MemberDao)sc.getAttribute("memberDao")	;
 //			memberDao.setConnection(conn);
@@ -82,22 +81,26 @@ public class MemberListServlet extends HttpServlet{
 			req.setAttribute("members", memberDao.selectList());
 			
 			
-			RequestDispatcher rd = req.getRequestDispatcher("/member/MemberList.jsp");
-			// 다른 서블릿이나 JSP로 작업 위임하는 객체 = RequestDispatcher
-			rd.include(req, res);
+//			RequestDispatcher rd = req.getRequestDispatcher("/member/MemberList.jsp");
+//			// 다른 서블릿이나 JSP로 작업 위임하는 객체 = RequestDispatcher
+//			rd.include(req, res);
+//			프론트 컨트롤러에서 이미 처리하고 넘어오기 때문에 주석처리 
 			
+			req.setAttribute("viewUrl", "/member/MemberList.jsp");
 		}catch(Exception e) {
-			//throw new ServletException(e); // 에러 페이지로 포워드하기 위한 주석처리
-			req.setAttribute("error", e);
-			RequestDispatcher rd = req.getRequestDispatcher("/Error.jsp");
-			rd.forward(req, res);
-		}finally {
-			try {if(rs != null) rs.close();}catch(Exception e) {}
-			try {if(stmt != null) stmt.close();}catch(Exception e) {}
-			//try {if(conn != null) conn.close();}catch(Exception e) {}
-			//ServletContext를 이용한 커넥션 공통 사용
-			
+			throw new ServletException(e); // 에러 페이지로 포워드하기 위한 주석처리
+//			req.setAttribute("error", e);
+//			RequestDispatcher rd = req.getRequestDispatcher("/Error.jsp");
+//			rd.forward(req, res);
+//			프론트컨트롤러에서 이미처리 되어 넘어오기 때문에주석처리 후 에러 던지는것 주석 해제 
 		}
+//		}finally {
+//			try {if(rs != null) rs.close();}catch(Exception e) {}
+//			try {if(stmt != null) stmt.close();}catch(Exception e) {}
+//			//try {if(conn != null) conn.close();}catch(Exception e) {}
+//			//ServletContext를 이용한 커넥션 공통 사용
+//			
+//		}
 		
 	}
 	

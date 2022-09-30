@@ -27,9 +27,10 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher(
-				"/auth/LogInForm.jsp");
-		rd.forward(request, response);
+//		RequestDispatcher rd = request.getRequestDispatcher(
+//				"/auth/LogInForm.jsp");
+//		rd.forward(request, response);
+		request.setAttribute("viewUrl", "/auth/LogInForm.jsp");
 	}
 	
 	@Override
@@ -70,18 +71,20 @@ public class LoginServlet extends HttpServlet {
 			if(member != null) {
 				HttpSession session = request.getSession();
 				session.setAttribute("member", member);
-				response.sendRedirect("../member/list");
+//				response.sendRedirect("../member/list");
+				request.setAttribute("viewUrl", "redirect:../member/list.do");
 			}else {
-				RequestDispatcher rd = request.getRequestDispatcher("/auth/LogInFail.jsp");
-				rd.forward(request, response);
+//				RequestDispatcher rd = request.getRequestDispatcher("/auth/LogInFail.jsp");
+//				rd.forward(request, response);
+				request.setAttribute("viewUrl", "/auth/LogInFail.jsp");
 			}
 		} catch (Exception e) {
 			throw new ServletException(e);
-			
-		} finally {
-			try {if (rs != null) rs.close();} catch (Exception e) {}
-			try {if (stmt != null) stmt.close();} catch (Exception e) {}
-		}
+		}	
+//		} finally {
+//			try {if (rs != null) rs.close();} catch (Exception e) {}
+//			try {if (stmt != null) stmt.close();} catch (Exception e) {}
+//		}
 	}
 	
 }

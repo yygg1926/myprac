@@ -69,19 +69,21 @@ public class MemberUpdateServlet extends HttpServlet {
 //			out.println("<input type='button' value='삭제'" + "onclick='location.href=\"delete?no=" + req.getParameter("no") + "\"'>");
 //			out.println("<input type='button' value='취소'" + " onclick='location.href=\"list\"'>");
 //			out.println("</form> </body></html>");
-			RequestDispatcher rd = req.getRequestDispatcher("/member/MemberUpdateForm.jsp");
-			rd.include(req, res);
+//			RequestDispatcher rd = req.getRequestDispatcher("/member/MemberUpdateForm.jsp");
+//			rd.include(req, res);
+			req.setAttribute("viewUrl", "/member/MemberUpdateForm.jsp");
 		}catch(Exception e) {
 			//e.printStackTrace();
-			//throw new ServletException(e);
-			req.setAttribute("error", e);
-			RequestDispatcher rd = req.getRequestDispatcher("/Error.jsp");
-			rd.forward(req, res);
-		}finally {
-			try {if(conn != null) conn.close();}catch(Exception e) {}
-			try {if(stmt != null) stmt.close();}catch(Exception e) {}
-			try {if(rs != null) rs.close();}catch(Exception e) {}
+			throw new ServletException(e);
+//			req.setAttribute("error", e);
+//			RequestDispatcher rd = req.getRequestDispatcher("/Error.jsp");
+//			rd.forward(req, res);
 		}
+//		}finally {
+//			try {if(conn != null) conn.close();}catch(Exception e) {}
+//			try {if(stmt != null) stmt.close();}catch(Exception e) {}
+//			try {if(rs != null) rs.close();}catch(Exception e) {}
+//		}
 	}
 	
 	
@@ -115,18 +117,20 @@ public class MemberUpdateServlet extends HttpServlet {
 //			stmt.executeUpdate();
 			MemberDao memberDao = (MemberDao)sc.getAttribute("memberDao");
 //			memberDao.setConnection(conn);
-			memberDao.update(new Member().setNo(Integer.parseInt(req.getParameter("no")))
-					.setEmail(req.getParameter("email"))
-					.setName(req.getParameter("name")));
+//			memberDao.update(new Member().setNo(Integer.parseInt(req.getParameter("no")))
+//					.setEmail(req.getParameter("email"))
+//					.setName(req.getParameter("name")));
+			memberDao.update((Member)req.getAttribute("member"));
 			
-			
-			res.sendRedirect("list");
+//			res.sendRedirect("list");
+			req.setAttribute("viewUrl", "redirect:list.do");
 		}catch(Exception e) {
 			throw new ServletException(e);
-		}finally {
-			try {if(conn != null) conn.close();}catch(Exception e) {}
-			try {if(stmt != null) stmt.close();}catch(Exception e) {}
 		}
+//		}finally {
+//			try {if(conn != null) conn.close();}catch(Exception e) {}
+//			try {if(stmt != null) stmt.close();}catch(Exception e) {}
+//		}
 	}
 	
 }
