@@ -9,20 +9,26 @@ import javax.sql.DataSource;
 
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
-import prac01.test01.dao.MemberDao;
+import prac01.test01.controls.LogInController;
+import prac01.test01.controls.LogOutController;
+import prac01.test01.controls.MemberAddController;
+import prac01.test01.controls.MemberDeleteController;
+import prac01.test01.controls.MemberListController;
+import prac01.test01.controls.MemberUpdateController;
+import prac01.test01.dao.MariaMemberDao;
 
 @WebListener
 public class ContextLoaderListener implements ServletContextListener {
 
-	//Connection conn;
-	//DBConnectionPool connPool;
+	// Connection conn;
+	// DBConnectionPool connPool;
 	BasicDataSource ds;
-	
+
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		try {
 			ServletContext sc = event.getServletContext();
-			
+
 //			Class.forName(sc.getInitParameter("driver"));
 //			conn = DriverManager.getConnection(
 //					sc.getInitParameter("url"),
@@ -44,27 +50,34 @@ public class ContextLoaderListener implements ServletContextListener {
 //			ds.setPassword(sc.getInitParameter("password"));
 //			DataSource를 이용한 커넥션 
 			InitialContext initialContext = new InitialContext();
-			DataSource ds = (DataSource)initialContext.lookup(
-					"java:comp/env/jdbc/test");
-			
-			MemberDao memberDao = new MemberDao();
+			DataSource ds = (DataSource) initialContext.lookup("java:comp/env/jdbc/test");
+
+			//MemberDao memberDao = new MemberDao();
+			// MemberDao interface 생성해서 구현
+			MariaMemberDao memberDao = new MariaMemberDao();
 //			memberDao.setConnection(conn);
 //			memberDao.setDBConnectionPool(connPool);
 			memberDao.setDataSource(ds);
-			
-			sc.setAttribute("memberDao", memberDao);
-		}catch(Exception e) {
+
+//			sc.setAttribute("memberDao", memberDao);
+			sc.setAttribute("/auth/login.do", new LogInController().setMemberDao(memberDao));
+			sc.setAttribute("/auth/logout.do", new LogOutController());
+			sc.setAttribute("/member/list.do", new MemberListController().setMemberDao(memberDao));
+			sc.setAttribute("/member/add.do", new MemberAddController().setMemberDao(memberDao));
+			sc.setAttribute("/member/update.do", new MemberUpdateController().setMemberDao(memberDao));
+			sc.setAttribute("/member/delete.do", new MemberDeleteController().setMemberDao(memberDao));
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void contextDestroyed(ServletContextEvent event) {
 //		try {
 //			conn.close();
 //		}catch(Exception e) {}
-		
-		
+
 //		connPool.closeAll();
 //		try {if(ds != null) ds.close();}catch(Exception e) {}
 	}
