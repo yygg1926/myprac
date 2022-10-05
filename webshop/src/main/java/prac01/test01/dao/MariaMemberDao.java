@@ -10,8 +10,10 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import prac01.test01.annotation.Component;
 import prac01.test01.vo.Member;
 
+@Component("memberDao")
 public class MariaMemberDao implements MemberDao{
 
 //	Connection connection;

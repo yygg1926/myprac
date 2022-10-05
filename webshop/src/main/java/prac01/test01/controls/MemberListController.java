@@ -2,8 +2,10 @@ package prac01.test01.controls;
 
 import java.util.Map;
 
+import prac01.test01.annotation.Component;
 import prac01.test01.dao.MemberDao;
 
+@Component("memberListController")
 public class MemberListController implements Controller {
 
 	MemberDao memberDao;

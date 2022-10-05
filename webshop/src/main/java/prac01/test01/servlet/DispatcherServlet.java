@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import prac01.test01.bind.DataBinding;
 import prac01.test01.bind.ServletRequestDataBinder;
+import prac01.test01.context.ApplicationContext;
 import prac01.test01.controls.Controller;
+import prac01.test01.listener.ContextLoaderListener;
 
 @WebServlet("*.do")
 public class DispatcherServlet extends HttpServlet {
@@ -23,7 +24,9 @@ public class DispatcherServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		String servletPath = request.getServletPath();
 		try {
-			ServletContext sc = this.getServletContext();
+			//ServletContext sc = this.getServletContext();
+			//applicationContext로 대체 
+			ApplicationContext ctx = ContextLoaderListener.getApplicatonContext();
 			
 			HashMap<String, Object> model = new HashMap<String,Object>();
 			//model.put("memberDao", sc.getAttribute("memberDao"));
@@ -32,8 +35,12 @@ public class DispatcherServlet extends HttpServlet {
 			
 //			Controller pageController = null;
 //			String pageControllerPath = null;
-			Controller pageController = (Controller)sc.getAttribute(servletPath);
-
+			//Controller pageController = (Controller)sc.getAttribute(servletPath);
+//			applicationContext로 대체
+			Controller pageController = (Controller)ctx.getBean(servletPath);
+			if(pageController == null) {
+				throw new Exception("요청한 서비스를 찾을 수 없습니다.");
+			}
 //			if ("/member/list.do".equals(servletPath)) {
 ////				pageControllerPath = "/member/list";
 ////				pageController = new MemberListController();

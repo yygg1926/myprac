@@ -6,6 +6,10 @@
 
   </welcome-file-list>
   
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>/WEB-INF/application-context.properties</param-value>
+  </context-param>
   
   <!--  DataSource 를 쓰기위한 설정  -->
   <resource-ref>

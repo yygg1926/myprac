@@ -1,0 +1,8 @@
+# Server 시
+ContextLoaderListener 
+-> ApplicationContext(Application-context.properties) 
+ 	- classPath를 뒤져서 애너테이션이 붙은 클래스를 찾아 애너테이션 지정 정보에 따라 인스턴스 생성 
+-> CharacterEncoding
+
+# URL  요청
+CharacterEncoding(doFilter) -> DispatcherServlet -> Controller

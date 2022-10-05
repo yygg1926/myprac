@@ -2,10 +2,12 @@ package prac01.test01.controls;
 
 import java.util.Map;
 
+import prac01.test01.annotation.Component;
 import prac01.test01.bind.DataBinding;
 import prac01.test01.dao.MemberDao;
 import prac01.test01.vo.Member;
 
+@Component("memberAddController")
 public class MemberAddController implements Controller, DataBinding {
 
 	MemberDao memberDao;

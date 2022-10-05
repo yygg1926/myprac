@@ -4,6 +4,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import prac01.test01.annotation.Component;
+
+@Component("logOutController")
 public class LogOutController implements Controller {
 
 	@Override

@@ -7,8 +7,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import javax.sql.DataSource;
 
-import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
-
+import prac01.test01.context.ApplicationContext;
 import prac01.test01.controls.LogInController;
 import prac01.test01.controls.LogOutController;
 import prac01.test01.controls.MemberAddController;
@@ -22,7 +21,12 @@ public class ContextLoaderListener implements ServletContextListener {
 
 	// Connection conn;
 	// DBConnectionPool connPool;
-	BasicDataSource ds;
+	//BasicDataSource ds;
+	static ApplicationContext applicationContext;
+	
+	public static ApplicationContext getApplicatonContext() {
+		return applicationContext;
+	}
 
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
@@ -49,23 +53,25 @@ public class ContextLoaderListener implements ServletContextListener {
 //			ds.setUsername(sc.getInitParameter("username"));
 //			ds.setPassword(sc.getInitParameter("password"));
 //			DataSource를 이용한 커넥션 
-			InitialContext initialContext = new InitialContext();
-			DataSource ds = (DataSource) initialContext.lookup("java:comp/env/jdbc/test");
-
-			//MemberDao memberDao = new MemberDao();
-			// MemberDao interface 생성해서 구현
-			MariaMemberDao memberDao = new MariaMemberDao();
-//			memberDao.setConnection(conn);
-//			memberDao.setDBConnectionPool(connPool);
-			memberDao.setDataSource(ds);
-
-//			sc.setAttribute("memberDao", memberDao);
-			sc.setAttribute("/auth/login.do", new LogInController().setMemberDao(memberDao));
-			sc.setAttribute("/auth/logout.do", new LogOutController());
-			sc.setAttribute("/member/list.do", new MemberListController().setMemberDao(memberDao));
-			sc.setAttribute("/member/add.do", new MemberAddController().setMemberDao(memberDao));
-			sc.setAttribute("/member/update.do", new MemberUpdateController().setMemberDao(memberDao));
-			sc.setAttribute("/member/delete.do", new MemberDeleteController().setMemberDao(memberDao));
+//			InitialContext initialContext = new InitialContext();
+//			DataSource ds = (DataSource) initialContext.lookup("java:comp/env/jdbc/test");
+			String propertiesPath = sc.getRealPath(sc.getInitParameter("contextConfigLocation"));
+			applicationContext = new ApplicationContext(propertiesPath);
+			
+////			MemberDao memberDao = new MemberDao();
+////			 MemberDao interface 생성해서 구현
+//			MariaMemberDao memberDao = new MariaMemberDao();
+////			memberDao.setConnection(conn);
+////			memberDao.setDBConnectionPool(connPool);
+//			memberDao.setDataSource(ds);
+//
+////			sc.setAttribute("memberDao", memberDao);
+//			sc.setAttribute("/auth/login.do", new LogInController().setMemberDao(memberDao));
+//			sc.setAttribute("/auth/logout.do", new LogOutController());
+//			sc.setAttribute("/member/list.do", new MemberListController().setMemberDao(memberDao));
+//			sc.setAttribute("/member/add.do", new MemberAddController().setMemberDao(memberDao));
+//			sc.setAttribute("/member/update.do", new MemberUpdateController().setMemberDao(memberDao));
+//			sc.setAttribute("/member/delete.do", new MemberDeleteController().setMemberDao(memberDao));
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -4,10 +4,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import prac01.test01.annotation.Component;
 import prac01.test01.bind.DataBinding;
 import prac01.test01.dao.MemberDao;
 import prac01.test01.vo.Member;
 
+@Component("loginController")
 public class LogInController implements Controller, DataBinding {
 
 	MemberDao memberDao;

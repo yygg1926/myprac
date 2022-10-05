@@ -2,9 +2,11 @@ package prac01.test01.controls;
 
 import java.util.Map;
 
+import prac01.test01.annotation.Component;
 import prac01.test01.bind.DataBinding;
 import prac01.test01.dao.MemberDao;
 
+@Component("memberDeleteController")
 public class MemberDeleteController implements Controller, DataBinding {
 
 	MemberDao memberDao;
