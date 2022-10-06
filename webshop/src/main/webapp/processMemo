@@ -5,4 +5,5 @@ ContextLoaderListener
 -> CharacterEncoding
 
 # URL  요청
-CharacterEncoding(doFilter) -> DispatcherServlet -> Controller
+CharacterEncoding(doFilter) ->ApplicationController ->
+ DispatcherServlet -> SerlvetRequestDataBinding -> Controller

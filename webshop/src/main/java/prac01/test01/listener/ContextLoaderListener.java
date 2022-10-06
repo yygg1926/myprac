@@ -1,20 +1,17 @@
 package prac01.test01.listener;
 
-import javax.naming.InitialContext;
+import java.io.InputStream;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import javax.sql.DataSource;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import prac01.test01.context.ApplicationContext;
-import prac01.test01.controls.LogInController;
-import prac01.test01.controls.LogOutController;
-import prac01.test01.controls.MemberAddController;
-import prac01.test01.controls.MemberDeleteController;
-import prac01.test01.controls.MemberListController;
-import prac01.test01.controls.MemberUpdateController;
-import prac01.test01.dao.MariaMemberDao;
 
 @WebListener
 public class ContextLoaderListener implements ServletContextListener {
@@ -31,7 +28,8 @@ public class ContextLoaderListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		try {
-			ServletContext sc = event.getServletContext();
+//			ServletContext sc = event.getServletContext();
+			applicationContext = new ApplicationContext();
 
 //			Class.forName(sc.getInitParameter("driver"));
 //			conn = DriverManager.getConnection(
@@ -55,9 +53,20 @@ public class ContextLoaderListener implements ServletContextListener {
 //			DataSource를 이용한 커넥션 
 //			InitialContext initialContext = new InitialContext();
 //			DataSource ds = (DataSource) initialContext.lookup("java:comp/env/jdbc/test");
-			String propertiesPath = sc.getRealPath(sc.getInitParameter("contextConfigLocation"));
-			applicationContext = new ApplicationContext(propertiesPath);
+
+//			String propertiesPath = sc.getRealPath(sc.getInitParameter("contextConfigLocation"));
+//			applicationContext = new ApplicationContext(propertiesPath);
+			String resource = "prac01/test01/dao/mybatis-config.xml";
+			InputStream inputStream = Resources.getResourceAsStream(resource);
+			SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+			applicationContext.addBean("sqlSessionFactory", sqlSessionFactory);
 			
+			ServletContext sc = event.getServletContext();
+			String propertiesPath = sc.getRealPath(sc.getInitParameter("contextConfigLocation"));
+			
+			applicationContext.prepareObjectsByProperties(propertiesPath);
+			applicationContext.prepareObjectByAnnotation("");
+			applicationContext.injectDependency();
 ////			MemberDao memberDao = new MemberDao();
 ////			 MemberDao interface 생성해서 구현
 //			MariaMemberDao memberDao = new MariaMemberDao();

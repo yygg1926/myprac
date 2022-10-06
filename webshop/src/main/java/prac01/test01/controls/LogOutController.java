@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import prac01.test01.annotation.Component;
 
-@Component("logOutController")
+@Component("/auth/logout.do")
 public class LogOutController implements Controller {
 
 	@Override

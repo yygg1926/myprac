@@ -10,6 +10,7 @@
 <body>
 <jsp:include page="/Header.jsp"/>
 <h1>프로젝트 목록 </h1>
+<p><a href='add.do'>신규 프로젝트</a></p>
 <table border="1">
 	<tr>
 		<th>no</th>
@@ -22,7 +23,7 @@
 	<c:forEach var="project" items="${projects }">
 		<tr>
 			<td>${project.no }</td>
-			<td><a href="update.do?no=${proejct.no }">${project.title }</a></td>
+			<td><a href="update.do?no=${project.no}">${project.title }</a></td>
 			<td>${project.startDate }</td>
 			<td>${project.endDate }</td>
 			<td>${project.state }</td>

@@ -7,7 +7,7 @@ import prac01.test01.bind.DataBinding;
 import prac01.test01.dao.MemberDao;
 import prac01.test01.vo.Member;
 
-@Component("memberUpdateController")
+@Component("/member/update.do")
 public class MemberUpdateController implements Controller, DataBinding {
 
 	MemberDao memberDao;

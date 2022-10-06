@@ -5,7 +5,7 @@ import java.util.Map;
 import prac01.test01.annotation.Component;
 import prac01.test01.dao.MemberDao;
 
-@Component("memberListController")
+@Component("/member/list.do")
 public class MemberListController implements Controller {
 
 	MemberDao memberDao;
