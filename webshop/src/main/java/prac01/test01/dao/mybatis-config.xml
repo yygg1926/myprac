@@ -31,5 +31,7 @@
   
   <mappers>
     <mapper resource="prac01/test01/dao/MariaProjectDao.xml"/>
+  	<mapper resource="prac01/test01/dao/MariaMemberDao.xml"/>
   </mappers>
+  
 </configuration>

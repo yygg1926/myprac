@@ -1,12 +1,13 @@
 package prac01.test01.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import prac01.test01.vo.Project;
 
 public interface ProjectDao {
 
-	List<Project> selectList() throws Exception;
+	List<Project> selectList(HashMap<String, Object> paramMap) throws Exception;
 	
 	int insert(Project project) throws Exception;
 	

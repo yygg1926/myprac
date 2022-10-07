@@ -78,7 +78,9 @@ public class MemberListServlet extends HttpServlet{
 //			}
 //			
 //			req.setAttribute("members", members);
-			req.setAttribute("members", memberDao.selectList());
+			
+			
+//			req.setAttribute("members", memberDao.selectList());
 			
 			
 //			RequestDispatcher rd = req.getRequestDispatcher("/member/MemberList.jsp");

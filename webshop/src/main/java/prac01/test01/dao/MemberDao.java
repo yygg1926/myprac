@@ -1,12 +1,13 @@
 package prac01.test01.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import prac01.test01.vo.Member;
 
 public interface MemberDao {
 
-	List<Member> selectList() throws Exception;
+	List<Member> selectList(HashMap<String, Object> paramMap) throws Exception;
 	int insert(Member member) throws Exception;
 	int delete(int no) throws Exception;
 	Member selectOne(int no) throws Exception;
